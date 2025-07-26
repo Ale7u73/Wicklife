@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escuela Juan Wickliffe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Optional: If you want a style for the active link in the navigation menu */
+        .header nav ul li a.active {
+            color: #FACC15; /* Yellow from your logo */
+            font-weight: bold;
+        }
+        /* --- Styles for the "Inicio" section background image --- */
+        #inicio {
+            background-image: url('./IMG_2128.jpg'); /* Adjust the path as needed */
+            background-size: cover; /* This makes the background image cover the entire section */
+            background-position: center 30%; /* Adjust the vertical percentage to move the image down */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            position: relative; /* Needed for the overlay to position correctly */
+            overflow: hidden; /* Ensures image and overlay don't overflow */
+        }
+
+        /* Styles to make text readable over the background image */
+        #inicio h2,
+        #inicio p,
+        #inicio a {
+            color: white; /* Ensure text is white for contrast */
+            position: relative; /* Bring text above the overlay */
+            z-index: 10; /* Higher z-index than the overlay */
+        }
+        /* Ensure the header retains its original background */
+        header {
+            background-color: #1E40AF; /* Tailwind's bg-blue-700 equivalent */
+        }
+
+        /* Styling for the value cards to keep them centered */
+        .value-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-blue-50">
+    <audio id="background-music" loop preload="auto" style="display: none;">
+        <source src="Colegio Juan Wicklife.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <div class="fixed bottom-4 left-4 z-50 p-3 bg-blue-700 text-white rounded-lg shadow-lg flex items-center space-x-3">
+        <button id="play-pause-button" class="text-white hover:text-yellow-300 focus:outline-none">
+            <i class="fas fa-play text-xl" id="play-pause-icon"></i>
+        </button>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" class="w-24 h-2 bg-blue-500 rounded-lg appearance-none cursor-pointer">
+        <i class="fas fa-volume-down text-xl"></i>
+    </div>
+    <header class="bg-blue-700 text-white py-4 shadow-md">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="#" class="flex items-center">
+                <img src="./Logo.png" alt="Logo del Colegio Wickliffe" class="h-16 mr-2">
+                <span class="text-white font-semibold ml-2">Colegio Juan Wickliffe</span>
+            </a>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6">
+                    <li><a href="#inicio" class="hover:text-yellow-300 transition duration-300">Inicio</a></li>
+                    <li><a href="#la-escuela" class="hover:text-yellow-300 transition duration-300">Colegio</a></li>
+                    <li><a href="#quienes-somos" class="hover:text-yellow-300 transition duration-300">Quiénes Somos</a></li>
+                    <li><a href="#nuestra-historia" class="hover:text-yellow-300 transition duration-300">Nuestra Historia</a></li>
+                    <li><a href="#nuestros-valores" class="hover:text-yellow-300 transition duration-300">Nuestros Valores</a></li>
+                    <li><a href="#objetivos" class="hover:text-yellow-300 transition duration-300">Objetivos</a></li>
+                    <li><a href="#galeria" class="hover:text-yellow-300 transition duration-300">Galería</a></li>
+                    <li><a href="#ubicacion" class="hover:text-yellow-300 transition duration-300">Ubicación</a></li>
+                    <li><a href="#horarios" class="hover:text-yellow-300 transition duration-300">Horarios</a></li>
+                    <li><a href="#contacto" class="hover:text-yellow-300 transition duration-300">Contacto</a></li>
+                </ul>
+            </nav>
+            <button id="menu-button" class="md:hidden text-white focus:outline-none" aria-label="Menú">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="hidden fixed top-0 left-0 w-full h-full bg-blue-900 bg-opacity-90 z-50">
+        <div class="bg-blue-800 w-80 h-full absolute right-0 p-6">
+            <div class="flex justify-end mb-4">
+                <button id="close-menu-button" class="text-white focus:outline-none" aria-label="Cerrar menú">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <nav class="block">
+                <ul class="space-y-4">
+                    <li><a href="#inicio" class="block text-lg text-white hover:text-yellow-300 transition duration-300">Inicio</a></li>
+                    <li><a href="#la-escuela" class="block text-lg text-white hover:text-yellow-300 transition duration-300">Colegio</a></li>
+                    <li><a href="#quienes-somos" class="block text-lg text-white hover:text-yellow-300 transition duration-300">Quiénes Somos</a></li>
+                    <li><a href="#nuestra-historia" class="block text-lg text-white hover:text-yellow-300 transition duration-300">Nuestra Historia</a></li>
+                    <li><a href="#nuestros-valores" class="block text-lg text-white hover:text-yellow-300 transition duration-300">Nuestros Valores</a></li>
+                    <li><a href="#objetivos" class="block text-lg text-white hover:text-yellow-300 transition duration-300">Objetivos</a></li>
+                    <li><a href="#galeria" class="block text-lg text-white hover:text-yellow-300 transition duration-300">Galería</a></li>
+                    <li><a href="#ubicacion" class="block text-lg text-white hover:text-yellow-300 transition duration-300">Ubicación</a></li>
+                    <li><a href="#horarios" class="block text-lg text-white hover:text-yellow-300 transition duration-300">Horarios</a></li>
+                    <li><a href="#contacto" class="block text-lg text-white hover:text-yellow-300 transition duration-300">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <main>
+        <section id="inicio" class="py-16 md:py-24 opacity-0 transform translate-y-20 transition-all duration-1000 ease-in-out">
+            <div class="absolute inset-0 bg-blue-900 bg-opacity-50 z-0"></div>
+            <div class="container mx-auto px-4 text-center relative z-10">
+                <h2 class="text-3xl md:text-4xl font-semibold mb-4">Bienvenido al Colegio Juan Wickliffe</h2>
+                <p class="text-lg mb-8">Educación de calidad para un futuro brillante y valores Cristianos.</p>
+                <a href="#contacto" class="bg-yellow-500 hover:bg-yellow-600 text-blue-700 font-semibold py-3 px-6 rounded-full transition duration-300 inline-block mb-4">Contáctanos</a>
+                <div class="flex justify-center space-x-4 mt-4">
+                    <a href="https://www.facebook.com/CJWSECBACH?locale=es_LA" target="_blank" rel="noopener noreferrer" class="text-white hover:text-yellow-300 transition duration-300">
+                        <i class="fab fa-facebook-square text-4xl"></i>
+                    </a>
+                    <a href="https://x.com/CJuanWickliffe" target="_blank" rel="noopener noreferrer" class="text-white hover:text-yellow-300 transition duration-300">
+                        <i class="fab fa-twitter-square text-4xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/cjuanwickliffe/" target="_blank" rel="noopener noreferrer" class="text-white hover:text-yellow-300 transition duration-300">
+                        <i class="fab fa-instagram text-4xl"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="la-escuela" class="bg-white py-16 md:py-24 opacity-0 transform translate-y-20 transition-all duration-1000 ease-in-out">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-blue-800 mb-8 text-center">El Colegio: Pilares de Nuestra Formación</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12">
+                    <div class="md:order-first">
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-4">Ideario Institucional</h3>
+                        <p class="text-gray-700">Contamos con un ideario basado en <strong>valores cristianos</strong>, el cual inspira cada aspecto de la vida escolar. A través de este enfoque formamos a los estudiantes no solo en lo académico, sino también en lo humano y espiritual, promoviendo principios como el <strong>respeto, la solidaridad, la responsabilidad y el amor al prójimo</strong>.</p>
+                    </div>
+                    <div class="md:order-last">
+                        <img src="./IMG_1277.JPG" alt="Estudiantes en una actividad con valores cristianos" class="w-full h-auto rounded-lg shadow-md">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12">
+                    <div class="md:order-last">
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-4">Filosofía Educativa: Un Enfoque Constructivista y Activo</h3>
+                        <p class="text-gray-700">En el Colegio Juan Wickliffe Secundaria y Bachillerato, creemos que <strong>educar no es llenar la mente, sino formar la vida</strong>. Nuestra filosofía se basa en la convicción de que el conocimiento verdadero transforma al ser humano cuando se une a los valores, la fe y la experiencia.</p>
+                        <p class="text-gray-700 mt-2">Aplicamos una <strong>metodología constructivista</strong>, donde el alumno construye su conocimiento a partir de la experiencia, la reflexión, el trabajo colaborativo y la resolución de problemas. Creemos que cada joven aprende de manera única, por eso respetamos sus ritmos, estilos y formas de pensar. Promovemos el <strong>pensamiento crítico y creativo</strong>, la <strong>autonomía personal</strong>, la <strong>responsabilidad social</strong> y la <strong>colaboración constante</strong>.</p>
+                        <p class="text-gray-700 mt-2">Nuestros docentes no solo imparten clases: acompañan, inspiran y forman. Formamos a los estudiantes no solo en lo académico, sino también en lo humano y espiritual, promoviendo principios como el respeto, la solidaridad, la responsabilidad y el amor al prójimo.</p>
+                    </div>
+                    <div class="md:order-first">
+                        <img src="./IMG1290.png" alt="Estudiantes colaborando en un proyecto" class="w-full h-auto rounded-lg shadow-md">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12">
+                    <div class="md:order-first">
+                        <h3 class="2xl font-semibold text-blue-700 mb-4">Proyecto Educativo: Formación Integral</h3>
+                        <p class="text-gray-700">Nuestro proyecto educativo busca educar de manera <strong>integral</strong>, es decir, desarrollando todas las dimensiones del ser humano: <strong>Intelectual, Emocional, Ética, Social y Espiritual</strong>. Preparamos a nuestros estudiantes para los desafíos académicos y de la vida, equipándolos con herramientas para un futuro exitoso. Formamos adolescentes con <strong>visión de futuro</strong>, seguros de quiénes son, qué creen y hacia dónde van. Jóvenes capaces de enfrentar la vida con inteligencia, empatía y esperanza.</p>
+                        <p class="text-gray-700 mt-2">En resumen: "No educamos solo para el examen del viernes, sino para los desafíos de la vida… y para la eternidad."</p>
+                    </div>
+                    <div class="md:order-last">
+                        <img src="./IMG_1252(1).png" alt="Estudiantes participando en actividades integrales" class="w-full h-auto rounded-lg shadow-md">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="md:order-last">
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-4">Instalaciones</h3>
+                        <p class="text-gray-700">Contamos con instalaciones modernas y adecuadas para el desarrollo óptimo de nuestros estudiantes, diseñadas para fomentar un ambiente de aprendizaje seguro y estimulante.</p>
+                    </div>
+                    <div class="md:order-first">
+                        <img src="./IMG_1287.JPG" alt="Instalaciones modernas del colegio" class="w-full h-auto rounded-lg shadow-md">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quienes-somos" class="bg-blue-50 py-16 md:py-24 opacity-0 transform translate-y-20 transition-all duration-1000 ease-in-out">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-blue-800 mb-8 text-center">Quiénes Somos: Nuestra Identidad y Compromiso</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12">
+                    <div class="md:order-first">
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-4">Nuestra Identidad Institucional</h3>
+                        <p class="text-gray-700 text-lg">Creemos en la educación que transforma: <b>desde el pensamiento, el corazón y la fe</b>.</p>
+                    </div>
+                    <div class="md:order-last">
+                        <img src="./IMG_2043.jpg" alt="Estudiantes en el Colegio Juan Wickliffe, representando la identidad institucional con fe y conocimiento" class="w-full h-auto rounded-lg shadow-md">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12">
+                    <div class="md:order-last">
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-4">Misión</h3>
+                        <p class="text-gray-700 text-lg">Formar jóvenes con <b>propósito, carácter y pensamiento crítico</b>. Nuestra misión es acompañar a cada estudiante en su crecimiento académico, humano y espiritual, desarrollando en ellos capacidades intelectuales, habilidades prácticas y <b>valores cristianos</b> que les permitan vivir con autonomía, responsabilidad y visión. Todo esto, en un ambiente de aprendizaje colaborativo, equitativo, inclusivo y tecnológicamente actualizado.</p>
+                    </div>
+                    <div class="md:order-first">
+                        <img src="./IMG_2008.jpg" alt="Jóvenes en el colegio, con un sentido de propósito y valores cristianos" class="w-full h-auto rounded-lg shadow-md">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12">
+                    <div class="md:order-first">
+                        <h3 class="text-2xl font-semibold text-blue-700 mt-6 mb-4">Visión</h3>
+                        <p class="text-gray-700 text-lg">Transformar la sociedad desde <b>mentes que piensan y corazones que creen</b>. Aspiramos a ser una institución educativa reconocida por formar jóvenes analíticos, éticos y comprometidos con su entorno, que generen impacto real desde sus decisiones, sus ideas y su fe.</p>
+                    </div>
+                    <div class="md:order-last">
+                        <img src="./IMG_2168.jpg" alt="Estudiantes pensando y colaborando, ilustrando mentes que piensan y corazones que creen" class="w-full h-auto rounded-lg shadow-md">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="nuestra-historia" class="bg-white py-16 md:py-24 opacity-0 transform translate-y-20 transition-all duration-1000 ease-in-out">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-blue-800 mb-8 text-center">Nuestra Historia</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <p class="text-gray-700 text-lg">Todo comenzó con una necesidad. En el año <strong>2021</strong>, en medio de un mundo que cambia rápidamente y una sociedad sedienta de principios, nació un sueño: crear una <strong>escuela distinta</strong>. No solo un lugar donde se impartieran clases, sino donde los jóvenes pudieran ser formados en <strong>sabiduría, carácter y propósito</strong>.</p>
+                        <p class="text-gray-700 text-lg mt-4">Así nació el <strong>Colegio Juan Wickliffe</strong> en la ciudad de <strong>Veracruz, Veracruz</strong>. Una institución cristiana que se propuso ser luz en medio del sistema educativo tradicional. Inspirados por la Palabra de Dios y guiados por una profunda convicción pedagógica, decidimos edificar sobre dos fundamentos sólidos: la <strong>fe cristiana</strong> y una <strong>educación constructivista</strong> centrada en el alumno.</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-700 text-lg">Desde nuestros primeros días, comprendimos que educar va más allá de memorizar conceptos. Es enseñar a vivir. Es formar jóvenes capaces de pensar, decidir, amar y transformar. Por eso, cada clase, cada actividad y cada espacio dentro del colegio está diseñado para cultivar no solo el intelecto, sino también el corazón.</p>
+                        <p class="text-gray-700 text-lg mt-4">Nuestro lema, tomado de Proverbios 2:6 — "<strong>Porque Dios da la sabiduría, y de su boca viene el conocimiento y la inteligencia</strong>" — resume nuestra esencia: formar estudiantes con <strong>excelencia académica y visión espiritual</strong>.</p>
+                        <p class="text-gray-700 text-lg mt-4">Hoy, el Colegio Juan Wickliffe es mucho más que una escuela. Es una <strong>comunidad de aprendizaje</strong>, un lugar donde los adolescentes descubren su identidad, desarrollan su potencial y se preparan para impactar al mundo con integridad, talento y verdad. Y esto… apenas comienza.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="nuestros-valores" class="bg-blue-50 py-16 md:py-24 opacity-0 transform translate-y-20 transition-all duration-1000 ease-in-out">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-blue-800 mb-8 text-center">Nuestros Valores Institucionales</h2>
+                <p class="text-gray-700 text-lg text-center mb-8">En el Colegio Juan Wickliffe, creemos firmemente que una educación de calidad no solo transmite conocimientos, sino que forma el carácter y el corazón de cada estudiante. Nuestros valores son <strong>cristianos, basados en la enseñanza de Jesús</strong>, y se reflejan en todo lo que hacemos. No promovemos ninguna religión ni denominación en particular; formamos en <strong>principios universales del Evangelio</strong>, que construyen una vida íntegra, compasiva y con propósito.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white shadow-md rounded-lg p-6 value-card">
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-2">1. Fe en Dios</h3>
+                        <p class="text-gray-700">Creemos que Dios es el origen de toda sabiduría. Fomentamos una relación personal con Él, reconociendo que su amor y verdad son la base para vivir con sentido.</p>
+                    </div>
+                    <div class="bg-white shadow-md rounded-lg p-6 value-card">
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-2">2. Amor al prójimo</h3>
+                        <p class="text-gray-700">Inspirados por el mensaje de Jesús, enseñamos a nuestros alumnos a vivir con compasión, respeto y servicio hacia los demás.</p>
+                    </div>
+                    <div class="bg-white shadow-md rounded-lg p-6 value-card">
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-2">3. Responsabilidad</h3>
+                        <p class="text-gray-700">Motivamos a nuestros estudiantes a asumir con madurez sus decisiones, su formación y su impacto en la sociedad.</p>
+                    </div>
+                    <div class="bg-white shadow-md rounded-lg p-6 value-card">
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-2">4. Integridad</h3>
+                        <p class="text-gray-700">Promovemos la coherencia entre lo que se cree, se dice y se hace. La verdad y la honestidad son principios que guían nuestras acciones.</p>
+                    </div>
+                    <div class="bg-white shadow-md rounded-lg p-6 value-card">
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-2">5. Respeto</h3>
+                        <p class="text-gray-700">Cada persona tiene un valor único. Enseñamos a valorar y escuchar al otro, promoviendo la paz y la dignidad en todo momento.</p>
+                    </div>
+                    <div class="bg-white shadow-md rounded-lg p-6 value-card">
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-2">6. Excelencia</h3>
+                        <p class="text-gray-700">Fomentamos una actitud de esfuerzo constante, buscando la mejora personal y académica como una forma de honrar a Dios y servir a los demás.</p>
+                    </div>
+                    <div class="bg-white shadow-md rounded-lg p-6 value-card">
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-2">7. Colaboración</h3>
+                        <p class="text-gray-700">Creemos que aprender juntos enriquece a todos. Estimulamos el trabajo en equipo, la empatía y la ayuda mutua como parte esencial de la vida escolar.</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 text-lg text-center mt-8"><strong>Una educación con fundamentos eternos:</strong> Nuestros valores no son ideas abstractas, sino principios vividos en cada aula, proyecto y relación. Nuestro personal docente y administrativo modela estos valores cada día, para que nuestros estudiantes los interioricen y reflejen en su vida personal, familiar y social. En Wickliffe, formamos jóvenes preparados para el mundo, anclados en valores cristianos que trascienden denominaciones y religiones.</p>
+            </div>
+        </section>
+
+        <section id="objetivos" class="bg-white py-16 md:py-24 opacity-0 transform translate-y-20 transition-all duration-1000 ease-in-out">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-blue-800 mb-8 text-center">Objetivos</h2>
+                <ul class="list-disc list-inside text-lg text-gray-700">
+                    <li class="mb-2">Formar estudiantes con un sólido fundamento en <strong>valores cristianos</strong>, promoviendo el respeto y la ética.</li>
+                    <li class="mb-2">Desarrollar el <strong>pensamiento crítico</strong> y la capacidad de resolución de problemas a través de un enfoque constructivista.</li>
+                    <li class="mb-2">Fomentar la <strong>autonomía</strong> y el <strong>aprendizaje significativo</strong>, adaptándonos al ritmo individual de cada alumno.</li>
+                    <li class="mb-2">Proveer un ambiente educativo seguro, inclusivo y estimulante para el <strong>desarrollo integral</strong>.</li>
+                    <li class="mb-2">Preparar a los estudiantes para los desafíos académicos y de la vida, equipándolos con herramientas para un <strong>futuro exitoso</strong>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="galeria" class="bg-white py-16 md:py-24 opacity-0 transform translate-y-20 transition-all duration-1000 ease-in-out">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-blue-800 mb-8 text-center">Galería de Fotos</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="rounded-lg overflow-hidden shadow-md">
+                    <img src="./IMG_1995.jpg" alt="Imagen 1" class="w-full h-auto">
+                    </div>
+                    <div class="rounded-lg overflow-hidden shadow-md">
+                    <img src="./IMG_2037.jpg" alt="Imagen 2" class="w-full h-auto">
+                    </div>
+                    <div class="rounded-lg overflow-hidden shadow-md">
+                    <img src="./IMG_2028.jpg" alt="Imagen 3" class="w-full h-auto">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ubicacion" class="bg-blue-50 py-16 md:py-24 opacity-0 transform translate-y-20 transition-all duration-1000 ease-in-out">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-blue-800 mb-8 text-center">Ubicación</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <div class="bg-white shadow-md rounded-lg p-6">
+                            <h3 class="text-2xl font-semibold text-blue-700 mb-4">Nuestra Dirección</h3>
+                            <p class="text-gray-700">Calz. Simon Bolívar 1070</p>
+                            <p class="text-gray-700">Ignacio Zaragoza, 91910 Veracruz, Ver.</p>
+                            <p class="text-gray-700 mt-4">
+                                <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3763.504820835848!2d-96.12644202574044!3d19.16781208200639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c34538e7b3c2c7%3A0xfb6a03e6b2e1b1d7!2sCalz.%20Simon%20Bolivar%201070%2C%20Ignacio%20Zaragoza%2C%2091910%20Veracruz%2C%20Ver.!5e0!3m2!1ses-419!2smx!4v1701704250284!5m2!1ses-419!2smx2" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 transition duration-300">
+                                    Ver en Google Maps <i class="fas fa-map-marker-alt ml-1"></i>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3763.504820835848!2d-96.12644202574044!3d19.16781208200639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c34538e7b3c2c7%3A0xfb6a03e6b2e1b1d7!2sCalz.%20Simon%20Bolivar%201070%2C%20Ignacio%20Zaragoza%2C%2091910%20Veracruz%2C%20Ver.!5e0!3m2!1ses-419!2smx!4v1701704250284!5m2!1ses-419!2smx3" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="horarios" class="bg-white py-16 md:py-24 opacity-0 transform translate-y-20 transition-all duration-1000 ease-in-out">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-blue-800 mb-8 text-center">Horarios</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-4">Horarios de Clases</h3>
+                        <table class="w-full">
+                            <thead class="bg-blue-100">
+                                <tr>
+                                    <th class="py-2 px-4 text-left text-gray-700 font-semibold">Grado</th>
+                                    <th class="py-2 px-4 text-left text-gray-700 font-semibold">Hora de Inicio</th>
+                                    <th class="py-2 px-4 text-left text-gray-700 font-semibold">Hora de Fin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 px-4 border-b border-gray-200">Secundaria</td>
+                                    <td class="py-2 px-4 border-b border-gray-200">7:30 AM</td>
+                                    <td class="py-2 px-4 border-b border-gray-200">2:30 PM</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b border-gray-200">Bachillerato</td>
+                                    <td class="py-2 px-4 border-b border-gray-200">7:00 AM</td>
+                                    <td class="py-2 px-4 border-b border-gray-200">2:30 PM</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-4">Horario de Oficina</h3>
+                        <ul class="list-disc list-inside">
+                            <li class="py-1 text-gray-700">Lunes a Viernes: <strong>7:00 AM - 3:00 PM</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="bg-blue-50 py-16 md:py-24">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-blue-800 mb-8 text-center">Contacto</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <div class="bg-white shadow-md rounded-lg p-6">
+                            <h3 class="text-2xl font-semibold text-blue-700 mb-4">Información de Contacto</h3>
+                            <ul class="list-none">
+                                <li class="py-2 text-gray-700 flex items-center">
+                                    <i class="fas fa-phone mr-2 text-blue-500"></i>
+                                    Teléfono: <strong>229 410 4087</strong>
+                                </li>
+                                <li class="py-2 text-gray-700 flex items-center">
+                                    <i class="fas fa-envelope mr-2 text-blue-500"></i>
+                                    Email: <strong>cjwinformacion@gmail.com</strong>
+                                </li>
+                                <li class="py-2 text-gray-700 flex items-center">
+                                    <i class="fas fa-map-marker-alt mr-2 text-blue-500"></i>
+                                    Dirección: Calz Simon Bolivar No. 1070 Entre 20 de Noviembre, Av Lafragua y, Ignacio Zaragoza, 91910 Veracruz, Ver.
+                                </li>
+                            </ul>
+                            <div class="mt-6">
+                                <a href="https://www.facebook.com/CJWSECBACH?locale=es_LA" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 transition duration-300 mr-4">
+                                    <i class="fab fa-facebook-square text-2xl"></i>
+                                </a>
+                                <a href="https://x.com/CJuanWickliffe" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 transition duration-300 mr-4">
+                                    <i class="fab fa-twitter-square text-2xl"></i>
+                                </a>
+                                <a href="https://www.instagram.com/cjuanwickliffe/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 transition duration-300">
+                                    <i class="fab fa-instagram text-2xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <form class="bg-white shadow-md rounded-lg p-6">
+                            <h3 class="text-2xl font-semibold text-blue-700 mb-4">Formulario de Contacto</h3>
+                            <div class="mb-4">
+                                <label for="nombre" class="block text-gray-700 text-sm font-bold mb-2">Nombre:</label>
+                                <input type="text" id="nombre" name="nombre" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                                <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            </div>
+                            <div class="mb-4">
+                                <label for="mensaje" class="block text-gray-700 text-sm font-bold mb-2">Mensaje:</label>
+                                <textarea id="mensaje" name="mensaje" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                            </div>
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Enviar Mensaje</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-blue-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2024 Escuela Juan Wickliffe. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMenuButton = document.getElementById('close-menu-button');
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        const navLinks = document.querySelectorAll('header nav ul li a');
+        const sections = document.querySelectorAll('section');
+
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        menuButton.addEventListener('click', toggleMobileMenu);
+        closeMenuButton.addEventListener('click', toggleMobileMenu);
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', toggleMobileMenu);
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!mobileMenu.classList.contains('hidden') && !mobileMenu.contains(event.target) && event.target !== menuButton) {
+                toggleMobileMenu();
+            }
+        });
+
+        function updateActiveNavLink() {
+            let currentSectionId = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // Adjusted offset for active link highlighting
+                if (window.scrollY >= sectionTop - 100 && window.scrollY < sectionTop + sectionHeight - 100) {
+                    currentSectionId = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === currentSectionId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNavLink);
+        updateActiveNavLink(); // Call once on load to set the initial active class
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // --- Intersection Observer para transiciones más notorias ---
+        const observerOptions = {
+            root: null, // el viewport como root
+            rootMargin: '0px',
+            threshold: 0.05 // ¡Umbral reducido para que aparezcan antes!
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Si la sección está visible, añadir las clases para la transición de entrada
+                    entry.target.classList.remove('opacity-0', 'translate-y-20');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    // Desactivar observación una vez que la animación se ha disparado (opcional, para animar solo una vez)
+                    // observer.unobserve(entry.target); // Comentado para permitir que la animación se repita al scrollear
+                } else {
+                    // Si la sección no está visible, quitar las clases para que se reanimen al volver
+                    entry.target.classList.remove('opacity-100', 'translate-y-0');
+                    entry.target.classList.add('opacity-0', 'translate-y-20');
+                }
+            });
+        }, observerOptions);
+
+        // Observar todas las secciones dentro de 'main'
+        document.querySelectorAll('main section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Asegurarse de que la sección de inicio se muestre inmediatamente al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            const inicioSection = document.getElementById('inicio');
+            if (inicioSection) {
+                inicioSection.classList.remove('opacity-0', 'translate-y-20');
+                inicioSection.classList.add('opacity-100', 'translate-y-0');
+                // observer.unobserve(inicioSection); // Comentado para permitir que la animación se repita al scrollear
+            }
+        });
+
+        // --- Script para el Audio ---
+        const audio = document.getElementById('background-music');
+        const playPauseButton = document.getElementById('play-pause-button');
+        const playPauseIcon = document.getElementById('play-pause-icon');
+        const volumeSlider = document.getElementById('volume-slider');
+
+        // Set initial volume to a low-medium level (0.5)
+        audio.volume = 0.5;
+
+        // The play/pause button will initially show a "play" icon, consistent with no autoplay.
+
+        playPauseButton.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play()
+                    .then(() => {
+                        console.log("Audio reproducido exitosamente.");
+                        playPauseIcon.classList.remove('fa-play');
+                        playPauseIcon.classList.add('fa-pause');
+                    })
+                    .catch(error => {
+                        console.log("Error al intentar reproducir el audio (posiblemente bloqueado por el navegador):", error);
+                        alert("Tu navegador podría estar bloqueando la reproducción automática de audio. Por favor, asegúrate de que el sonido no esté silenciado y que la interacción del usuario lo permita.");
+                    });
+            } else {
+                audio.pause();
+                playPauseIcon.classList.remove('fa-pause');
+                playPauseIcon.classList.add('fa-play');
+            }
+        });
+
+        volumeSlider.addEventListener('input', () => {
+            audio.volume = volumeSlider.value;
+            // Optionally, update the volume icon based on volume level
+            if (audio.volume == 0) {
+                // Remove existing volume icons and add mute
+                playPauseIcon.classList.remove('fa-volume-down', 'fa-volume-up');
+                playPauseIcon.classList.add('fa-volume-mute');
+            } else if (audio.volume > 0.5) {
+                // Remove existing volume icons and add volume-up
+                playPauseIcon.classList.remove('fa-volume-down', 'fa-volume-mute');
+                playPauseIcon.classList.add('fa-volume-up');
+            } else {
+                // Remove existing volume icons and add volume-down
+                playPauseIcon.classList.remove('fa-volume-up', 'fa-volume-mute');
+                playPauseIcon.classList.add('fa-volume-down');
+            }
+        });
+
+        // These listeners keep the icon in sync with the audio's actual state
+        audio.addEventListener('play', () => {
+            playPauseIcon.classList.remove('fa-play');
+            playPauseIcon.classList.add('fa-pause');
+        });
+
+        audio.addEventListener('pause', () => {
+            playPauseIcon.classList.remove('fa-pause');
+            playPauseIcon.classList.add('fa-play');
+        });
+    </script>
+</body>
+</html>
